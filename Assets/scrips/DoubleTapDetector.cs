@@ -1,41 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 public class DoubleTapDetector : MonoBehaviour
 {
     private float lastTapTime;
     private const float doubleTapTime = 0.3f; // Tiempo máximo entre toques para considerarlo doble tap
     private bool isDoubleTap = false; // Bandera para detectar doble tap
+    private PlayerInputActions touchControls;
 
-    void Update()
+    void Awake()
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        touchControls = new PlayerInputActions();
+    }
+
+    void OnEnable()
+    {
+        touchControls.Enable();
+    }
+
+    void OnDisable()
+    {
+        touchControls.Disable();
+    }
+
+    void Start()
+    {
+        touchControls.Touch.TouchPress.started += ctx => CheckDoubleTap(ctx);
+    }
+
+    private void CheckDoubleTap(InputAction.CallbackContext context)
+    {
+        if (Time.time - lastTapTime < doubleTapTime)
         {
-            if (Time.time - lastTapTime < doubleTapTime)
+            isDoubleTap = true;
+
+            Vector2 touchPosition = touchControls.Touch.TouchPosition.ReadValue<Vector2>();
+            Ray ray = Camera.main.ScreenPointToRay(touchPosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                // Doble tap detectado
-                isDoubleTap = true;
-
-                Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-                touchPosition.z = 0;
-
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.GetTouch(0).position), out hit))
+                if (hit.collider.CompareTag("Object"))
                 {
-                    if (hit.collider.CompareTag("Object")) // Asegúrate de que el objeto tenga el tag "Object"
-                    {
-                        Destroy(hit.collider.gameObject);
-                    }
+                    Destroy(hit.collider.gameObject);
                 }
             }
-            else
-            {
-                // No es un doble tap
-                isDoubleTap = false;
-            }
-            lastTapTime = Time.time;
         }
+        else
+        {
+            isDoubleTap = false;
+        }
+        lastTapTime = Time.time;
     }
 
     public bool IsDoubleTap()

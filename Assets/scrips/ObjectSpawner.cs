@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class ObjectSpawner : MonoBehaviour
 {
@@ -10,44 +12,50 @@ public class ObjectSpawner : MonoBehaviour
     public Color SelecColor = Color.white;
 
     public DoubleTapDetector doubleTapDetector; // Referencia al script de doble tap
+    private PlayerInputActions touchControls;
 
-    // Método para seleccionar el sprite desde el botón
+    void Awake()
+    {
+        touchControls = new PlayerInputActions();
+    }
+    void OnEnable()
+    {
+        touchControls.Enable();
+    }
+
+    void OnDisable()
+    {
+        touchControls.Disable();
+    }
+
+    void Start()
+    {
+        touchControls.Touch.TouchPress.started += ctx => TrySpawnObject(ctx);
+    }
+
     public void SelectSprite(Image buttonImage)
     {
         selectedSprite = buttonImage.sprite;
     }
 
-    // Método para seleccionar el color desde el botón
     public void SelectColor(Image buttonImage)
     {
         SelecColor = buttonImage.color;
     }
 
-    void Update()
+    private void TrySpawnObject(InputAction.CallbackContext context)
     {
-        // Detectar toque en la pantalla
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-        {
-            // Verificar si no es un doble tap
-            if (!doubleTapDetector.IsDoubleTap())
-            {
-                // Obtener posición del toque
-                Vector3 touchPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-                touchPosition.z = 0; // Asegurar que esté en el plano correcto
+        if (doubleTapDetector != null && doubleTapDetector.IsDoubleTap()) return;
+        if (selectedSprite == null) return;
 
-                // Si hay un sprite seleccionado, crear el objeto con el color previamente elegido
-                if (selectedSprite != null)
-                {
-                    GameObject newObject = Instantiate(prefab, touchPosition, Quaternion.identity);
-                    SpriteRenderer sr = newObject.GetComponent<SpriteRenderer>();
+        Vector2 touchPosition = touchControls.Touch.TouchPosition.ReadValue<Vector2>();
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(touchPosition.x, touchPosition.y, 0));
+        worldPosition.z = 0;
 
-                    sr.sprite = selectedSprite;  // Asignar sprite
-                    sr.color = SelecColor;    // Aplicar el color previamente seleccionado
-
-                    // Asignar un tag para identificar los objetos creados
-                    newObject.tag = "Object";
-                }
-            }
-        }
+        GameObject newObject = Instantiate(prefab, worldPosition, Quaternion.identity);
+        SpriteRenderer sr = newObject.GetComponent<SpriteRenderer>();
+        sr.sprite = selectedSprite;
+        sr.color = SelecColor;
+        newObject.tag = "Object";
     }
 }

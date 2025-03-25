@@ -1899,6 +1899,7 @@ MonoBehaviour:
   prefab: {fileID: 5807869293575155357, guid: 208732878935a7849ad49aa3821e8c61, type: 3}
   SelecColor: {r: 1, g: 1, b: 1, a: 1}
   doubleTapDetector: {fileID: 421950427}
+  dragAndDrop: {fileID: 421950428}
 --- !u!4 &1195394813
 Transform:
   m_ObjectHideFlags: 0
