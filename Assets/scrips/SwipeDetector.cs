@@ -90,9 +90,9 @@ public class SwipeDetector : MonoBehaviour
 
     private void UpdateTrailColor()
     {
-        if (objectSpawner != null && trailMaterial != null)
+        if (objectSpawner != null && objectSpawner.currentColorData != null && trailMaterial != null)
         {
-            trailMaterial.color = objectSpawner.SelecColor;
+            trailMaterial.color = objectSpawner.currentColorData.colorValue;
         }
     }
 }

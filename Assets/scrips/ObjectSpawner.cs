@@ -9,8 +9,8 @@ public class ObjectSpawner : MonoBehaviour
 {
     public GameObject prefab; // Prefab base para crear el objeto
     private Sprite selectedSprite; // Sprite seleccionado
-    public Color SelecColor = Color.white;
-
+    public ColorDataSO currentColorData; // Reemplaza el Color directo
+    public SpriteDataSO currentSriteData;
     public DoubleTapDetector doubleTapDetector; // Referencia al script de doble tap
     private PlayerInputActions touchControls;
 
@@ -38,15 +38,21 @@ public class ObjectSpawner : MonoBehaviour
         selectedSprite = buttonImage.sprite;
     }
 
-    public void SelectColor(Image buttonImage)
+    public void SelectColor(ColorDataSO colorData)
     {
-        SelecColor = buttonImage.color;
+        currentColorData = colorData;
     }
-
+    public void SelectColorFromUI(Image buttonImage)
+    {
+        if (currentColorData != null)
+        {
+            currentColorData.colorValue = buttonImage.color;
+        }
+    }
     private void TrySpawnObject(InputAction.CallbackContext context)
     {
         if (doubleTapDetector != null && doubleTapDetector.IsDoubleTap()) return;
-        if (selectedSprite == null) return;
+        if (selectedSprite == null || currentColorData == null) return;
 
         Vector2 touchPosition = touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(touchPosition.x, touchPosition.y, 0));
@@ -55,7 +61,7 @@ public class ObjectSpawner : MonoBehaviour
         GameObject newObject = Instantiate(prefab, worldPosition, Quaternion.identity);
         SpriteRenderer sr = newObject.GetComponent<SpriteRenderer>();
         sr.sprite = selectedSprite;
-        sr.color = SelecColor;
+        sr.color = currentColorData.colorValue; // Usamos el color del SO
         newObject.tag = "Object";
     }
 }
