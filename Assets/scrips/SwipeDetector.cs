@@ -64,7 +64,12 @@ public class SwipeDetector : MonoBehaviour
 
     private void MoveTouch(InputAction.CallbackContext context)
     {
-        if (!isSwiping) return;
+        if (dragAndDrop != null && dragAndDrop.IsDragging())
+        {
+            isSwiping = false;
+            trailRenderer.enabled = false;
+            return;
+        }
 
         fingerUpPosition = touchControls.Touch.TouchPosition.ReadValue<Vector2>();
         Vector3 touchWorldPosition = Camera.main.ScreenToWorldPoint(new Vector3(fingerUpPosition.x, fingerUpPosition.y, 10));
@@ -73,10 +78,11 @@ public class SwipeDetector : MonoBehaviour
 
     private void EndTouch(InputAction.CallbackContext context)
     {
-        if (!isSwiping) return;
-
-        isSwiping = false;
-        trailRenderer.enabled = false;
+        if (dragAndDrop != null && dragAndDrop.IsDragging())
+        {
+            isSwiping = false;
+            return;
+        }
 
         if (Vector2.Distance(fingerDownPosition, fingerUpPosition) > 50f)
         {

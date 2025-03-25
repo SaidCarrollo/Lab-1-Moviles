@@ -268,6 +268,7 @@ GameObject:
   - component: {fileID: 17584167}
   - component: {fileID: 17584166}
   - component: {fileID: 17584165}
+  - component: {fileID: 17584168}
   m_Layer: 5
   m_Name: Mano
   m_TagString: Untagged
@@ -389,6 +390,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 17584163}
   m_CullTransparentMesh: 1
+--- !u!114 &17584168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17584163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a009754380a6a104cb0e987acca9cb97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData: {fileID: 11400000, guid: f003b095c60ae1243b47446881b07074, type: 2}
+  spawner: {fileID: 1195394812}
 --- !u!1 &238502969
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +698,7 @@ GameObject:
   - component: {fileID: 351923419}
   - component: {fileID: 351923418}
   - component: {fileID: 351923417}
+  - component: {fileID: 351923420}
   m_Layer: 5
   m_Name: Esfera
   m_TagString: Untagged
@@ -804,6 +820,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351923415}
   m_CullTransparentMesh: 1
+--- !u!114 &351923420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351923415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a009754380a6a104cb0e987acca9cb97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData: {fileID: 11400000, guid: 3f5a438f91216f1449cb6feb04dc19e5, type: 2}
+  spawner: {fileID: 1195394812}
 --- !u!1 &387387364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,6 +1943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 5807869293575155357, guid: 208732878935a7849ad49aa3821e8c61, type: 3}
   currentColorData: {fileID: 11400000, guid: e6a95f561de09844d8c83e29d54a64b8, type: 2}
+  currentSpriteData: {fileID: 0}
   doubleTapDetector: {fileID: 421950427}
 --- !u!4 &1195394813
 Transform:
@@ -2157,6 +2188,7 @@ GameObject:
   - component: {fileID: 1359329190}
   - component: {fileID: 1359329189}
   - component: {fileID: 1359329188}
+  - component: {fileID: 1359329191}
   m_Layer: 5
   m_Name: Cuadrado
   m_TagString: Untagged
@@ -2278,6 +2310,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359329186}
   m_CullTransparentMesh: 1
+--- !u!114 &1359329191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359329186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a009754380a6a104cb0e987acca9cb97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData: {fileID: 11400000, guid: fa38fd6d7c5a99446a6e943351ed32f2, type: 2}
+  spawner: {fileID: 1195394812}
 --- !u!1 &1545564131
 GameObject:
   m_ObjectHideFlags: 0
